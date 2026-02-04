@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Theertha ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Curtain */
+    .curtain-container {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      z-index: 10;
+      cursor: pointer;
+    }
+    .curtain {
+      width: 50%;
+      background: linear-gradient(135deg, #b31217, #e52d27);
+      transition: transform 1s ease-in-out;
+    }
+    .curtain-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .open .left { transform: translateX(-100%); }
+    .open .right { transform: translateX(100%); }
+
+    /* Card */
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 50px 40px;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 95%;
+      max-width: 500px;
+      min-height: 300px;
+      position: relative;
+      display: none;
+    }
+
+    h1 { color: #e63946; }
+
+    .buttons { margin-top: 30px; position: relative; height: 120px; }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yesBtn { background: #e63946; color: white; left: 50%; transform: translateX(-50%); }
+    #noBtn { background: #adb5bd; color: #333; right: 10%; transition: left 0.6s ease, top 0.6s ease; }
+
+    .warning { margin-top: 90px; color: red; display: none; }
+
+    /* Gallery */
+    .gallery {
+      display: none;
+      text-align: center;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .typing {
+      font-size: 1.4rem;
+      color: #b00020;
+      margin-bottom: 20px;
+      min-height: 60px;
+      animation: none;
+    }
+
+    .fade-dust {
+      animation: dustFade 6s forwards;
+    }
+
+    .gallery img {
+      max-width: 80%;
+      max-height: 80vh;
+      border: 8px solid white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      display: none;
+      animation: zoomIn 2s ease, blurOut 4s ease forwards;
+      filter: blur(10px);
+    }
+
+    .gallery img {
+      max-width: 80%;
+      max-height: 80vh;
+      border: 8px solid white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: zoomIn 2s ease, blurOut 4s ease forwards;
+      filter: blur(10px);
+    }
+
+    @keyframes zoomIn { from { transform: scale(0.9); opacity:0;} to { transform: scale(1); opacity:1;} }
+    @keyframes blurOut { from { filter: blur(10px);} to { filter: blur(0);} }
+    @keyframes dustFade {
+      0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      100% { opacity: 0; transform: translateY(-15px) scale(1.05); filter: blur(6px); }
+    } { from { filter: blur(10px);} to { filter: blur(0);} }
+    @keyframes fadeIn { from { opacity:0;} to { opacity:1;} } { from { opacity:0;} to { opacity:1;} }
+  </style>
+</head>
+<body>
+
+  <!-- Curtain -->
+  <div class="curtain-container" id="curtain">
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+    <div class="curtain-text">A Special Message!!! <br><small style="font-size:1.2rem;">Tap to Open ❤️</small></div>
+  </div>
+
+  <!-- Valentine Card -->
+  <div class="card" id="card">
+    <h1>Theertha..   will you be my Valentine? 💖</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes 😍</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+    <div class="warning" id="warning">Sorry this button won't work 😌</div>
+  </div>
+
+  <!-- Gallery -->
+  <div class="gallery" id="gallery">
+    <div class="typing" id="typingText"></div>
+    <img src="shine_theertha.png" alt="Memories" id="finalImage" />
+    <audio id="music" src="puthu mazha instrumental.mp3"></audio>
+  </div>
+
+<script>
+  const curtain = document.getElementById('curtain');
+  const card = document.getElementById('card');
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const warning = document.getElementById('warning');
+  const gallery = document.getElementById('gallery');
+  const music = document.getElementById('music');
+
+  curtain.onclick = () => {
+    curtain.classList.add('open');
+    setTimeout(() => {
+      curtain.style.display = 'none';
+      card.style.display = 'block';
+    }, 1000);
+  };
+
+  function moveNo() {
+    warning.style.display = 'block';
+
+    const cardRect = card.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const padding = 15;
+    const maxX = cardRect.width - btnRect.width - padding * 2;
+    const maxY = cardRect.height - btnRect.height - padding * 2 - 80;
+
+    const x = Math.random() * maxX + padding;
+    const y = Math.random() * maxY + padding + 60;
+
+    noBtn.style.transition = 'left 0.5s ease, top 0.5s ease';
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+    noBtn.innerHTML = "No 🙈";
+  }
+
+  noBtn.onmouseenter = moveNo;
+  noBtn.onclick = moveNo;
+
+  yesBtn.onclick = () => {
+    card.style.display = 'none';
+    gallery.style.display = 'block';
+    music.play();
+
+    const text = "The best parts of my life are sweeter with you by my side. Thank you for staying in and making these moments feel like home........................ I love youhh";
+    const typing = document.getElementById('typingText');
+    const finalImage = document.getElementById('finalImage');
+    let i = 0;
+
+    const interval = setInterval(() => {
+      typing.textContent += text.charAt(i);
+      i++;
+      if (i === text.length) {
+        clearInterval(interval);
+
+        // Dust fade after typing
+        setTimeout(() => {
+          typing.classList.add('fade-dust');
+        }, 300);
+
+        // Show image after dust fade (6s)
+        setTimeout(() => {
+          typing.style.display = 'none';
+          finalImage.style.display = 'block';
+        }, 6300);
+      }
+    }, 50);
+  };
+</script>
+
+</body>
+</html>
+
+
+
+
+
